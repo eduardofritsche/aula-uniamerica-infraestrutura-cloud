@@ -13,6 +13,12 @@ RUN npm install
 # Copiando todo o conteúdo da pasta do projeto para o container
 COPY . .
 
+# URL do backend usada pelo front, definida no momento do build (CRA "queima" env vars no bundle).
+# Default mantém o comportamento local (docker-compose up); em produção, sobrescrever com:
+#   --build-arg REACT_APP_API_URL=https://api.seudominio.com
+ARG REACT_APP_API_URL=http://localhost:5000
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Construindo a aplicação para produção
 RUN npm run build
 
